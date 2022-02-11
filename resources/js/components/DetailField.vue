@@ -13,10 +13,10 @@
 
                 <a
                     v-if="!field.shouldShow"
-                    @click="toggle"
                     class="cursor-pointer dim inline-block text-primary font-bold"
                     :class="{ 'mt-6': expanded }"
                     aria-role="button"
+                    @click="toggle"
                 >
                     {{ showHideLabel }}
                 </a>
@@ -34,12 +34,6 @@ export default {
 
     data: () => ({ expanded: false }),
 
-    methods: {
-        toggle() {
-            this.expanded = !this.expanded;
-        },
-    },
-
     computed: {
         hasContent() {
             return this.content !== '' && this.content !== null;
@@ -47,6 +41,12 @@ export default {
 
         showHideLabel() {
             return !this.expanded ? this.__('Show Content') : this.__('Hide Content');
+        },
+    },
+
+    methods: {
+        toggle() {
+            this.expanded = !this.expanded;
         },
     },
 };

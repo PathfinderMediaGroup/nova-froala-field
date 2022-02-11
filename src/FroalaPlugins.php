@@ -4,5 +4,5 @@ namespace Froala\NovaFroalaField;
 
 interface FroalaPlugins
 {
-    public function import();
+    public function import(): void;
 }

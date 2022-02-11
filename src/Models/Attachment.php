@@ -7,27 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 class Attachment extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'nova_froala_attachments';
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [];
 
-    /**
-     * Purge the attachment.
-     *
-     * @return void
-     * @throws \Exception
-     */
-    public function purge()
+    public function purge(): void
     {
         Storage::disk($this->disk)->delete($this->attachment);
 

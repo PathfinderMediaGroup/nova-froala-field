@@ -8,42 +8,16 @@ use Illuminate\Support\Facades\Storage;
 
 class PendingAttachment extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'nova_pending_froala_attachments';
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [];
 
-    /**
-     * Persist the given draft's pending attachments.
-     *
-     * @param  string  $draftId
-     * @param  \Froala\NovaFroalaField\Froala  $field
-     * @param  mixed  $model
-     * @return void
-     */
-    public static function persistDraft($draftId, Froala $field, $model)
+    public static function persistDraft(string $draftId, Froala $field, $model): void
     {
         static::where('draft_id', $draftId)->get()->each->persist($field, $model);
     }
 
-    /**
-     * Persist the pending attachment.
-     *
-     * @param  \Froala\NovaFroalaField\Froala $field
-     * @param  mixed $model
-     * @return void
-     * @throws \Exception
-     */
-    public function persist(Froala $field, $model)
+    public function persist(Froala $field, $model): void
     {
         Attachment::create([
             'attachable_type' => get_class($model),
@@ -56,13 +30,7 @@ class PendingAttachment extends Model
         $this->delete();
     }
 
-    /**
-     * Purge the attachment.
-     *
-     * @return void
-     * @throws \Exception
-     */
-    public function purge()
+    public function purge(): void
     {
         Storage::disk($this->disk)->delete($this->attachment);
 

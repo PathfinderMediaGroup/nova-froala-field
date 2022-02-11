@@ -32,7 +32,11 @@ class FroalaImageManagerControllerTest extends TestCase
             return strcasecmp($a['url'], $b['url']);
         });
 
-        $response->assertJson($images);
+        foreach ($images as $image) {
+            $response->assertJsonFragment($image);
+        }
+
+        $response->assertJsonCount(count($images));
     }
 
     /** @test */

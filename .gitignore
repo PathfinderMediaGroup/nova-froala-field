@@ -8,3 +8,11 @@ phpunit.xml
 .phpunit.result.cache
 .DS_Store
 Thumbs.db
+auth.json
+/dist/vendor/nova/froala/embedly.min.js.LICENSE.txt
+/dist/vendor/nova/froala/image_tui.min.js.LICENSE.txt
+/dist/vendor/nova/froala/spell_checker.min.js.LICENSE.txt
+/dist/js/field.js.LICENSE.txt
+/.php-cs-fixer.cache
+/.ddev/
+/dist/mix-manifest.json

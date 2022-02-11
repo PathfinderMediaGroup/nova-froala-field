@@ -11,24 +11,38 @@
 
 ## Introduction
 
+This is a fork of the original `froala/nova-froala-field` repository. The original is no longer maintained. I created this fork because our company needs a working version of Froala in Nova. This fork contains an updated version of Froala (v4) **without** 3rd party plugin support (you can read [here](#3rd-party-integrations) why).
+
+### Upgrading from v3 to v4
+
+This version has some new minimum requirements:
+- `PHP` ^8.0
+- `laravel/framework` ^9.0
+- `laravel/nova` ^3.0
+- `league/flysystem` ^3.0 (default with Laravel 9)
+
+You may replace `"froala/nova-froala-field": "^3.x"` with `"pathfindermediagroup/nova-froala-field": "^4.0"` in your `composer.json` if you were using the old version from Froala. Just make sure to force publish the new assets like so:
+```bash
+php artisan vendor:publish --tag=froala-styles --provider=Froala\\NovaFroalaField\\FroalaFieldServiceProvider --force
+```
+
+You may also remove the `public/vendor/nova/froala` folder from your project, as it is no longer needed or supported.
+
 ### Froala WYSIWYG Editor Field
 
 Full support of attaching Images, Files and Videos
 
-![Form Field](docs/form-field.png)
+![Form Field](.github/docs/form-field.png)
 
 Notifications for _Froala_ events are handled by [Toasted](https://nova.laravel.com/docs/1.0/customization/frontend.html#notifications) which is provided in _Nova_ by default.
 
-## Upgrading
-
-For upgrading to **Froala 3**, check out – [Upgrading Instructions](UPGRADING.md).
 
 ## Installation
 
 You can install the package into a Laravel application that uses [Nova](https://nova.laravel.com) via composer:
 
 ```bash
-composer require froala/nova-froala-field
+composer require pathfindermediagroup/nova-froala-field
 ```
 
 ## Usage
@@ -101,7 +115,6 @@ edit `nova.froala-field.options` value:
             'insertVideo',
         ],
         [
-            'embedly',
             'html',
         ],
     ],
@@ -346,7 +359,7 @@ Froala::make('Content')->showOnIndex();
 
 Just click **Show Content**
 
-![Index Field](docs/index-field.png)
+![Index Field](.github/docs/index-field.png)
 
 ## License Key
 
@@ -362,55 +375,7 @@ To setup your license key, uncomment `key` option in the config file and set `FR
 
 ## 3rd Party Integrations
 
-To enable a button that uses some a 3rd party service and needs additional script including, like: *Embed.ly*, *TUI Advanced Image Editor* or *SCAYT Web SpellChecker*, you should publish 3rd party scripts:
-
-```bash
-php artisan vendor:publish --tag=nova-froala-field-plugins --provider=Froala\\NovaFroalaField\\FroalaFieldServiceProvider
-```
-
-Script will be dynamically imported when you enable `embedly` or `spellChecker` buttons.
-
-### TUI Advanced Image Editor
-
-If you want to use _TUI Image Editor_ to add advanced image editing options, switch `tuiEnable` option to `true`:
-
-```php
-'options' => [
-    // 'key' => env('FROALA_KEY'),
-
-    // 'tuiEnable' => true,
-
-    //...
-],
-```
-
-### Font Awesome 5
-
-If you have a [Font Awesome Pro license](https://fontawesome.com), you can enable using the regular icons instead of
-the solid ones by using the iconsTemplate option.
-
-Add `iconsTemplate` config value into `froala-field.php` config:
-
-```php
-'options' => [
-    // 'key' => env('FROALA_KEY'),
-
-   'iconsTemplate' => 'font_awesome_5',
-   // If you want to use the regular/light icons, change the template to the following.
-   // iconsTemplate: 'font_awesome_5r'
-   // iconsTemplate: 'font_awesome_5l'
-   
-   //...
-],
-```
-
-**Note**:
-
-> If you have any problems with loading 3rd party plugins, try to republish it
-
-```bash
-php artisan vendor:publish --tag=nova-froala-field-plugins --force
-```
+I decided to remove 3rd party integrations like embedly and Tui. The reason for this being is that I wanted an updated version of Froala in Nova. I could not get it to work properly with the 3rd party integrations. I do not use them, and thus I am not inclined to spend more time on trying to get them to work. If you know how to do this, feel free to create a pull request.
 
 ## Advanced
 
@@ -464,27 +429,48 @@ Froala::make('Content')
     ->images(new AttachedImagesList)
 ```
 
-## Testing
+## Development
+
+You may get started with this package as follows (after cloning the repository):
+```bash
+composer install
+yarn install
+```
+
+### Fixing code-style
+PHP
+```bash
+composer cgl
+```
+JS
+```bash
+yarn format
+```
+
+### Testing
 
 ``` bash
 composer test
 ```
 
-## Changelog
+### Building dev assets
+```bash
+yarn dev
+```
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+### Building production assets
+```bash
+yarn prod
+```
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security
-
-If you discover any security related issues, please email support@froala.com instead of using the issue tracker.
+To contribute, simply make a pull request to this repository with your changes. Make sure they are documented well in your pull request description.
 
 ## Credits
 
-- [Slava Razum](https://github.com/slavarazum)
+- [Slava Razum](https://github.com/slavarazum) For creating the original plugin
+- [Woeler](https://github.com/slavarazum) For updating the abandoned plugin to Froala version 4, Laravel version 9 and Mix version 6
 - [All Contributors][link-contributors]
 
 ## License

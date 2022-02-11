@@ -1,5 +1,5 @@
 {
-    "name": "froala/nova-froala-field",
+    "name": "pathfindermediagroup/nova-froala-field",
     "description": "A Laravel Nova Froala WYSIWYG Editor Field.",
     "keywords": [
         "laravel",
@@ -9,31 +9,38 @@
         "froala",
         "editor"
     ],
-    "homepage": "https://github.com/froala/nova-froala-field",
+    "homepage": "https://github.com/pathfindermediagroup/nova-froala-field",
     "license": "MIT",
     "authors": [
         {
             "name": "Slava Razum",
             "email": "modern.web.artisan@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Pathfinder Media GmbH",
+            "role": "Developer"
         }
     ],
     "repositories": [
         {
             "type": "composer",
-            "url": "https://nova.laravel.com"
+            "url": "https://nova.laravel.com",
+            "only": ["laravel/nova"]
         }
     ],
     "require": {
-        "php": ">=7.1.3",
-        "laravel/nova": "*",
-        "league/flysystem": "^1.0.8",
-        "spatie/image-optimizer": "^1.1"
+        "php": ">=8.0",
+        "laravel/nova": "^3.0",
+        "league/flysystem": "^3.0",
+        "spatie/image-optimizer": "^1.6"
     },
     "require-dev": {
-        "mockery/mockery": "^1.1",
-        "orchestra/testbench": "^3.8|^4.0",
-        "phpunit/phpunit": "^7.0|^8.0"
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "mockery/mockery": "^1.5",
+        "orchestra/testbench": "^7.0",
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest"
     },
     "autoload": {
         "psr-4": {
@@ -50,7 +57,13 @@
     },
     "scripts": {
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-html coverage"
+        "test-coverage": "phpunit --colors=always --coverage-html coverage",
+        "cgl": [
+            "vendor/bin/php-cs-fixer fix --config .php-cs-fixer.php"
+        ],
+        "cgl-ci": [
+            "vendor/bin/php-cs-fixer fix --config .php-cs-fixer.php -v --dry-run --diff"
+        ]
     },
     "extra": {
         "laravel": {

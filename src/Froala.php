@@ -15,14 +15,9 @@ use Laravel\Nova\Trix\PendingAttachment as TrixPendingAttachment;
 
 class Froala extends Trix
 {
-    /**
-     * The field's component.
-     *
-     * @var string
-     */
-    public $component = 'nova-froala-field';
+    public const DRIVER_NAME = 'froala';
 
-    const DRIVER_NAME = 'froala';
+    public $component = 'nova-froala-field';
 
     /**
      * The callback that should be executed to return attached images list.
@@ -31,7 +26,6 @@ class Froala extends Trix
      */
     public $imagesCallback;
 
-    /** {@inheritdoc} */
     public function __construct(string $name, ?string $attribute = null, $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
@@ -56,11 +50,6 @@ class Froala extends Trix
         ]);
     }
 
-    /**
-     * Determine the server 'upload_max_filesize' as bytes.
-     *
-     * @return int
-     */
     protected function getUploadMaxFilesize(): int
     {
         $uploadMaxFilesize = config('nova.froala-field.upload_max_filesize')
@@ -73,16 +62,12 @@ class Froala extends Trix
         $metric = strtoupper(substr($uploadMaxFilesize, -1));
         $uploadMaxFilesize = (int) $uploadMaxFilesize;
 
-        switch ($metric) {
-            case 'K':
-                return $uploadMaxFilesize * 1024;
-            case 'M':
-                return $uploadMaxFilesize * 1048576;
-            case 'G':
-                return $uploadMaxFilesize * 1073741824;
-            default:
-                return $uploadMaxFilesize;
-        }
+        return match ($metric) {
+            'K' => $uploadMaxFilesize * 1024,
+            'M' => $uploadMaxFilesize * 1048576,
+            'G' => $uploadMaxFilesize * 1073741824,
+            default => $uploadMaxFilesize,
+        };
     }
 
     /**
@@ -93,7 +78,7 @@ class Froala extends Trix
      * @param array $options
      * @return self
      */
-    public function options(array $options)
+    public function options(array $options): self
     {
         return $this->withMeta([
             'options' => array_merge($this->meta['options'], $options),
@@ -103,7 +88,7 @@ class Froala extends Trix
     /**
      * Specify that file uploads should not be allowed.
      */
-    public function withFiles($disk = null, $path = '/')
+    public function withFiles($disk = null, $path = '/'): self|static
     {
         $this->withFiles = true;
 
@@ -138,7 +123,7 @@ class Froala extends Trix
      * @param  string $attribute
      * @return \Closure|null
      */
-    protected function fillAttribute(NovaRequest $request, $requestAttribute, $model, $attribute)
+    protected function fillAttribute(NovaRequest $request, $requestAttribute, $model, $attribute): ?\Closure
     {
         if (isset($this->fillCallback)) {
             return call_user_func(
@@ -171,6 +156,8 @@ class Froala extends Trix
                 );
             };
         }
+
+        return null;
     }
 
     /**
@@ -179,7 +166,7 @@ class Froala extends Trix
      * @param  callable  $imagesCallback
      * @return $this
      */
-    public function images(callable $imagesCallback)
+    public function images(callable $imagesCallback): static
     {
         $this->withFiles = true;
 
@@ -193,7 +180,7 @@ class Froala extends Trix
      *
      * @return string|null
      */
-    public function getStorageDir()
+    public function getStorageDir(): ?string
     {
         return $this->storagePath ?? '/';
     }
@@ -201,9 +188,9 @@ class Froala extends Trix
     /**
      * Get the full path that the field is stored at on disk.
      *
-     * @return string|null
+     * @return string
      */
-    public function getStoragePath()
+    public function getStoragePath(): string
     {
         return '/';
     }

@@ -2,18 +2,13 @@
 
 namespace Froala\NovaFroalaField\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class FroalaUploadController extends Controller
 {
-    /**
-     * Store an attachment for a Trix field.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(NovaRequest $request)
+    public function store(NovaRequest $request): JsonResponse
     {
         $field = $request->newResource()
             ->availableFields($request)
@@ -27,13 +22,7 @@ class FroalaUploadController extends Controller
         )]);
     }
 
-    /**
-     * Delete a single, persisted attachment for a Trix field by URL.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyAttachment(NovaRequest $request)
+    public function destroyAttachment(NovaRequest $request): mixed
     {
         $field = $request->newResource()
             ->availableFields($request)
@@ -44,13 +33,7 @@ class FroalaUploadController extends Controller
         return call_user_func($field->detachCallback, $request);
     }
 
-    /**
-     * Purge all pending attachments for a Trix field.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyPending(NovaRequest $request)
+    public function destroyPending(NovaRequest $request): mixed
     {
         $field = $request->newResource()
             ->availableFields($request)

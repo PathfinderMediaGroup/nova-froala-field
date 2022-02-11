@@ -9,27 +9,10 @@ use Illuminate\Support\Str;
 
 class AttachedImagesList
 {
-    /**
-     * The field instance.
-     *
-     * @var \Froala\NovaFroalaField\Froala
-     */
-    public $field;
-
-    /**
-     * Create a new invokable instance.
-     *
-     * @param  \Froala\NovaFroalaField\Froala  $field
-     * @return void
-     */
-    public function __construct(Froala $field)
+    public function __construct(public Froala $field)
     {
-        $this->field = $field;
     }
 
-    /**
-     * Attach a pending attachment to the field.
-     */
     public function __invoke(Request $request): array
     {
         $images = [];

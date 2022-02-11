@@ -3,10 +3,10 @@
 namespace Froala\NovaFroalaField\Tests;
 
 use function Froala\NovaFroalaField\nova_version_at_least;
-use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Testing\TestResponse;
 
 trait UploadsHelper
 {

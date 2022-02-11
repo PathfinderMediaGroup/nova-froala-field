@@ -2,37 +2,17 @@
 
 namespace Froala\NovaFroalaField\Handlers;
 
+use Froala\NovaFroalaField\Froala;
 use Froala\NovaFroalaField\Models\Attachment;
 use Illuminate\Http\Request;
 
 class DeleteAttachments
 {
-    /**
-     * The field instance.
-     *
-     * @var \Froala\NovaFroalaField\Froala
-     */
-    public $field;
-
-    /**
-     * Create a new class instance.
-     *
-     * @param  \Froala\NovaFroalaField\Froala  $field
-     * @return void
-     */
-    public function __construct($field)
+    public function __construct(public Froala $field)
     {
-        $this->field = $field;
     }
 
-    /**
-     * Delete the attachments associated with the field.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  mixed $model
-     * @return array
-     */
-    public function __invoke(Request $request, $model)
+    public function __invoke(Request $request, $model): array
     {
         Attachment::where('attachable_type', get_class($model))
                 ->where('attachable_id', $model->getKey())

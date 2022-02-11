@@ -1,13 +1,13 @@
 <template>
-    <default-field @keydown.native.stop :field="field" :errors="errors" :full-width-content="true">
+    <default-field :field="field" :errors="errors" :full-width-content="true" @keydown.native.stop>
         <template slot="field">
             <froala
                 v-if="!loading"
                 :id="field.name"
+                v-model="value"
                 :tag="'textarea'"
                 :config="options"
                 :placeholder="field.name"
-                v-model="value"
             ></froala>
         </template>
     </default-field>
@@ -21,6 +21,19 @@ import PluginsLoader from '../PluginsLoader';
 
 export default {
     mixins: [HandlesValidationErrors, FormField],
+
+    data() {
+        return {
+            loading: true,
+            mediaConfigurator: new MediaConfigurator(this.resourceName, this.field, this.$toasted),
+        };
+    },
+
+    computed: {
+        options() {
+            return _.merge(this.field.options, this.defaultConfig(), window.froala || {});
+        },
+    },
 
     beforeDestroy() {
         this.mediaConfigurator.cleanUp();
@@ -36,19 +49,6 @@ export default {
         new PluginsLoader(this.options, this.$toasted).registerPlugins().then(data => {
             this.loading = false;
         });
-    },
-
-    data() {
-        return {
-            loading: true,
-            mediaConfigurator: new MediaConfigurator(this.resourceName, this.field, this.$toasted),
-        };
-    },
-
-    computed: {
-        options() {
-            return _.merge(this.field.options, this.defaultConfig(), window.froala || {});
-        },
     },
 
     methods: {

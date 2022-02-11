@@ -1,0 +1,14 @@
+name: JS Checks and Tests
+on: push
+
+jobs:
+    ci-js:
+        runs-on: [ubuntu-latest]
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Yarn install
+              run: yarn install
+
+            - name: JS CGL
+              run: yarn format-check

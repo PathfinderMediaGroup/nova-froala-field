@@ -7,7 +7,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class FroalaImageManagerController
 {
-    public function index(NovaRequest $request)
+    public function index(NovaRequest $request): mixed
     {
         $field = $request->newResource()
             ->availableFields($request)
@@ -21,7 +21,7 @@ class FroalaImageManagerController
         );
     }
 
-    public function destroy(NovaRequest $request)
+    public function destroy(NovaRequest $request): void
     {
         if (config('nova.froala-field.attachments_driver') !== Froala::DRIVER_NAME) {
             $request->replace(['attachmentUrl' => $request->input('src')] + $request->except('src'));

@@ -1,0 +1,30 @@
+name: PHP Checks and Tests
+on: push
+
+jobs:
+    ci-php:
+        runs-on: [ubuntu-latest]
+        strategy:
+            matrix:
+                php-versions: ['8.0', '8.1']
+        steps:
+            - uses: actions/checkout@v2
+
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+
+            - name: Set app env
+              run: echo "APP_ENV=production" > .env
+
+            - name: Auth Nova
+              run: composer config http-basic.nova.laravel.com ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}
+
+            - name: Composer install
+              run: composer install
+
+            - name: PHP CGL
+              run: composer cgl-ci
+
+            - name: Tests
+              run: composer test

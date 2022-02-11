@@ -11,31 +11,11 @@ use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class StorePendingAttachment
 {
-    /**
-     * The field instance.
-     *
-     * @var \Froala\NovaFroalaField\Froala
-     */
-    public $field;
-
-    /**
-     * Create a new invokable instance.
-     *
-     * @param  \Froala\NovaFroalaField\Froala  $field
-     * @return void
-     */
-    public function __construct(Froala $field)
+    public function __construct(public Froala $field)
     {
-        $this->field = $field;
     }
 
-    /**
-     * Attach a pending attachment to the field.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string
-     */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): string
     {
         $this->abortIfFileNameExists($request);
 
@@ -76,7 +56,7 @@ class StorePendingAttachment
 
             if (count($optimizers = config('nova.froala-field.image_optimizers'))) {
                 $optimizers = array_map(
-                    function (array $optimizerOptions, string $optimizerClassName) {
+                    static function (array $optimizerOptions, string $optimizerClassName) {
                         return (new $optimizerClassName)->setOptions($optimizerOptions);
                     },
                     $optimizers,

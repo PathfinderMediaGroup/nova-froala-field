@@ -13,12 +13,7 @@ class FroalaFieldServiceProvider extends ServiceProvider
 {
     public const ASSETS_DIST_DIRECTORY = __DIR__.'/../dist';
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot(FroalaPlugins $froalaPlugins)
+    public function boot(FroalaPlugins $froalaPlugins): void
     {
         $this->app->booted(function () {
             $this->routes();
@@ -34,12 +29,7 @@ class FroalaFieldServiceProvider extends ServiceProvider
         $this->registerPublishables();
     }
 
-    /**
-     * Register the card's routes.
-     *
-     * @return void
-     */
-    protected function routes()
+    protected function routes(): void
     {
         if ($this->app->routesAreCached()) {
             return;
@@ -50,12 +40,7 @@ class FroalaFieldServiceProvider extends ServiceProvider
             ->group(__DIR__.'/../routes/api.php');
     }
 
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/froala-field.php', 'nova.froala-field');
 
@@ -68,10 +53,6 @@ class FroalaFieldServiceProvider extends ServiceProvider
 
     private function registerPublishables(): void
     {
-        $this->publishes([
-            __DIR__.'/../dist/vendor/nova/froala' => public_path('vendor/nova/froala'),
-        ], 'nova-froala-field-plugins');
-
         $this->publishes([
             __DIR__.'/../dist/css/froala_styles.min.css' => public_path('css/vendor/froala_styles.min.css'),
         ], 'froala-styles');
